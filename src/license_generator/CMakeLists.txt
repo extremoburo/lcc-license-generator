@@ -25,11 +25,13 @@ add_executable(lccgen open-license-main.cpp)
 add_executable(license_generator::lccgen ALIAS lccgen)
 target_link_libraries(lccgen PRIVATE license_generator_lib)
 
-#install instructions
-install(TARGETS lccgen EXPORT license_generator RUNTIME DESTINATION bin)
+IF(LCCGEN_INSTALL_EXEC)
+	#install instructions
+	install(TARGETS lccgen EXPORT license_generator RUNTIME DESTINATION bin)
 
-install(EXPORT license_generator NAMESPACE license_generator:: DESTINATION ${pkg_config_dest})
-install(FILES ../../cmake/lccgen-config.cmake DESTINATION ${pkg_config_dest})
+	install(EXPORT license_generator NAMESPACE license_generator:: DESTINATION ${pkg_config_dest})
+	install(FILES ../../cmake/lccgen-config.cmake DESTINATION ${pkg_config_dest})
+ENDIF(LCCGEN_INSTALL_EXEC)
 
 #if we're building as standalone export the current build directory for easy retrieval 
 if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
